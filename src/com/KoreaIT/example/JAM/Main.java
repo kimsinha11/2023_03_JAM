@@ -2,6 +2,7 @@ package com.KoreaIT.example.JAM;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,8 @@ public class Main {
 				
 				
 				
-				Article article = new Article(id, title, body, regDate);
+				String updateDate = "";
+				Article article = new Article(id, title, body);
 				articles.add(article);
 				
 //				System.out.println(article); >> Article [id=1, title=aa, body=aa, regDate=, hit=null]
@@ -99,10 +101,69 @@ public class Main {
 						System.out.printf("%d / %s \n", article.id, article.title);
 					}
 				}
+				Connection conn = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+					String url = "jdbc:mysql://127.0.0.1:3306/JAM?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
+					
+					conn = DriverManager.getConnection(url, "root", "");
+					System.out.println("연결 성공!");
+					
+					String sql = "SELECT id, title";
+					sql += " FROM article";
+					sql += " ORDER BY id DESC;";
+					
+					
+					System.out.println(sql);
+					
+					pstmt = conn.prepareStatement(sql);
+					
+					rs = pstmt.executeQuery();
+					System.out.println("번호 | 제목");
+					while (rs.next()) {
+						
+						String id = rs.getString("id");
+						String title = rs.getString("title");
+						
+						
+						System.out.println(id + "  |  " + title);
+					}
+					System.out.println("rs : " + rs);
+					
+				} catch (ClassNotFoundException e) {
+					System.out.println("드라이버 로딩 실패");
+				} catch (SQLException e) {
+					System.out.println("에러 : " + e);
+				} finally {
+					try {
+						if (rs != null && !rs.isClosed()) {
+							rs.close();
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					try {
+						if (pstmt != null && !pstmt.isClosed()) {
+							pstmt.close();
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					try {
+						if (conn != null && !conn.isClosed()) {
+							conn.close();
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 			else {
 				System.out.println("존재하지 않는 명령어 입니다.");
 			}
+			
 
 		}
 		System.out.println("==프로그램 종료==");
