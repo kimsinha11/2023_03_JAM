@@ -1,5 +1,5 @@
 package com.KoreaIT.example.JAM.util;
 
-public class util {
+public class Util {
 
 }
