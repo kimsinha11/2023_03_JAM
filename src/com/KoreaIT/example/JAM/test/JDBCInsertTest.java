@@ -9,6 +9,7 @@ public class JDBCInsertTest {
 	public static void main(String[] args) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			String url = "jdbc:mysql://127.0.0.1:3306/JAM?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
@@ -36,15 +37,15 @@ public class JDBCInsertTest {
 			System.out.println("에러 : " + e);
 		} finally {
 			try {
-				if (pstmt != null && !pstmt.isClosed()) {
-					pstmt.close();
+				if (conn != null && !conn.isClosed()) {
+					conn.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			try {
-				if (conn != null && !conn.isClosed()) {
-					conn.close();
+				if (pstmt != null && !pstmt.isClosed()) {
+					pstmt.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
