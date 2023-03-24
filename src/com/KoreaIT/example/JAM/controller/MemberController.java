@@ -1,7 +1,5 @@
 package com.KoreaIT.example.JAM.controller;
 
-import java.util.Scanner;
-
 import com.KoreaIT.example.JAM.container.Container;
 import com.KoreaIT.example.JAM.dto.Member;
 import com.KoreaIT.example.JAM.service.MemberService;
@@ -15,6 +13,10 @@ public class MemberController extends Controller {
 	}
 
 	public void login(String cmd) {
+		if (Container.session.isLogined()) {
+			System.out.println("로그아웃 후 이용해주세요.");
+			return;
+		} 
 		String loginId = null;
 		String loginPw = null;
 
@@ -66,15 +68,18 @@ public class MemberController extends Controller {
 			}
 
 			System.out.println(member.name + " 회원님, 환영합니다");
-			
-			Container.session.loginedMember = member;
-			Container.session.loginedMemberId = member.id;
+
+			Container.session.login(member);
 			break;
 		}
 
 	}
 
 	public void doJoin(String cmd) {
+		if (Container.session.isLogined()) {
+			System.out.println("로그아웃 후 이용해주세요.");
+			return;
+		} 
 		String loginId = null;
 		String loginPw = null;
 		String loginPwConfirm = null;
@@ -151,12 +156,22 @@ public class MemberController extends Controller {
 	}
 
 	public void showProfile(String cmd) {
-		if(Container.session.loginedMemberId == -1) {
-			System.out.println("로그인 상태가 아닙니다.");
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
 		} else {
-		System.out.println(Container.session.loginedMember);
+			System.out.println(Container.session.loginedMember);
 		}
-		
+
+	}
+
+	public void logout(String cmd) {
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+		} else {
+			Container.session.logout();
+			System.out.println("로그아웃 되었습니다.");
+		}
 	}
 
 }

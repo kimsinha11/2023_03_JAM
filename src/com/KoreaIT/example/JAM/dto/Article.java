@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 public class Article extends Object {
+	public int memberId;
 	public int id;
 	public LocalDateTime regDate;
 	public LocalDateTime updateDate;
@@ -17,8 +18,9 @@ public class Article extends Object {
 		this.body = body;
 	}
 
-	public Article(int id, LocalDateTime regDate, LocalDateTime updateDate, String title, String body) {
+	public Article(int id, int memberId, LocalDateTime regDate, LocalDateTime updateDate, String title, String body) {
 		this.id = id;
+		this.memberId = memberId;
 		this.regDate = regDate;
 		this.updateDate = updateDate;
 		this.title = title;

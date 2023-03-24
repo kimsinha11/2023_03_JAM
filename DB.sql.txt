@@ -26,8 +26,11 @@ CREATE TABLE `member`(
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
-title = CONCAT('제목 ',RAND()),
-`body` = CONCAT('내용 ',RAND());
+memberId = 1,
+title = 'test1',
+`body` = 'test1';
+
+ALTER TABLE article ADD memberId INT(10) UNSIGNED NOT NULL AFTER updateDate;
 
 SELECT * 
 FROM article;
@@ -36,9 +39,16 @@ FROM article;
 INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
-loginId = CONCAT('TestId ',RAND()),
-loginPw = CONCAT('TestPw ',RAND()),
-`name` = CONCAT('TestName ',RAND());
+loginId = 'test1',
+loginPw = 'test2',
+`name` ='김철수';
+
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'test2',
+loginPw = 'test1',
+`name` ='김철순';
 
 SELECT * 
 FROM `member`;
