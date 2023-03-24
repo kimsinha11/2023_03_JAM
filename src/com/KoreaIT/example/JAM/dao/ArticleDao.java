@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.KoreaIT.example.JAM.Article;
+import com.KoreaIT.example.JAM.dto.Article;
 import com.KoreaIT.example.JAM.util.DBUtil;
 import com.KoreaIT.example.JAM.util.SecSql;
 
@@ -26,7 +26,6 @@ public class ArticleDao {
 		sql.append(", `body` = ?", body);
 
 		return DBUtil.insert(conn, sql);
-
 	}
 
 	public Map<String, Object> getArticleById(int id) {
@@ -53,10 +52,9 @@ public class ArticleDao {
 		sql.append("WHERE id = ?", id);
 
 		DBUtil.delete(conn, sql);
-		
 	}
 
-	public void doupDate(int id, String title, String body) {
+	public void doModify(int id, String title, String body) {
 		SecSql sql = new SecSql();
 
 		sql.append("UPDATE article");
@@ -66,10 +64,9 @@ public class ArticleDao {
 		sql.append("WHERE id = ?", id);
 
 		DBUtil.update(conn, sql);
-		
 	}
 
-	public List<Article> getArticlesCount() {
+	public List<Article> getArticles() {
 		SecSql sql = new SecSql();
 
 		sql.append("SELECT *");
@@ -77,11 +74,13 @@ public class ArticleDao {
 		sql.append("ORDER BY id DESC;");
 
 		List<Map<String, Object>> articleListMap = DBUtil.selectRows(conn, sql);
-		
+
 		List<Article> articles = new ArrayList<>();
+
 		for (Map<String, Object> articleMap : articleListMap) {
 			articles.add(new Article(articleMap));
 		}
+
 		return articles;
 	}
 

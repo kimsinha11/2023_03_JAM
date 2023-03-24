@@ -58,23 +58,21 @@ public class App {
 			return -1;
 		}
 
-		MemberController memberController = new MemberController(conn,sc);
-	
-		ArticleController articleController = new ArticleController(conn,sc);
-	
-		if (cmd.equals("member join")) {
+		MemberController memberController = new MemberController(conn, sc);
+		ArticleController articleController = new ArticleController(conn, sc);
+		
+		if (cmd.equals("member login")) {
+			memberController.login(cmd);
+		} else if (cmd.equals("member join")) {
 			memberController.doJoin(cmd);
 		} else if (cmd.equals("article write")) {
 			articleController.doWrite(cmd);
 		} else if (cmd.startsWith("article detail ")) {
 			articleController.showDetail(cmd);
-
 		} else if (cmd.startsWith("article delete ")) {
 			articleController.doDelete(cmd);
-
 		} else if (cmd.startsWith("article modify ")) {
 			articleController.doModify(cmd);
-
 		} else if (cmd.equals("article list")) {
 			articleController.showList(cmd);
 		} else {

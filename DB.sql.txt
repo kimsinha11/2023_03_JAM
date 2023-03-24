@@ -1,57 +1,44 @@
-DROP DATABASE IF EXISTS JAM;
+# DB 생성
+DROP DATABASE IF EXISTS `JAM`;
 CREATE DATABASE `JAM`;
 USE `JAM`;
 
+# article 테이블 생성
 CREATE TABLE article(
-id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-regDate DATETIME NOT NULL,
-updatedate DATETIME NOT NULL,
-title CHAR(100) NOT NULL,
-`body` TEXT NOT NULL
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    title CHAR(100) NOT NULL,
+    `body` TEXT NOT NULL
 );
 
-SHOW TABLES;
-DESC article;
+# member 테이블 생성
+CREATE TABLE `member`(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    loginId CHAR(20) NOT NULL,
+    loginPw CHAR(200) NOT NULL,
+    `name` CHAR(100) NOT NULL
+);
 
-INSERT INTO article SET regDate = NOW(), updateDate = NOW(), title = CONCAT('제목 ',RAND()), `body` = CONCAT('내용 ',RAND());
+# article 테스트데이터 생성
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+title = CONCAT('제목 ',RAND()),
+`body` = CONCAT('내용 ',RAND());
 
-INSERT INTO article SET regDate = NOW(), updateDate = NOW(), title = CONCAT('제목 ',RAND()), `body` = CONCAT('내용 ',RAND());
+SELECT * 
+FROM article;
 
-SELECT*FROM article;
+# `member` 테스트데이터 생성
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = CONCAT('TestId ',RAND()),
+loginPw = CONCAT('TestPw ',RAND()),
+`name` = CONCAT('TestName ',RAND());
 
-================================================================
-
-package com.KoreaIT.example.JAM.test;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
-public class JDBCInsertTest {
-	public static void main(String[] args) {
-		Connection conn = null;
-
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String url = "jdbc:mysql://127.0.0.1:3306/JAM?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-
-			conn = DriverManager.getConnection(url, "root", "");
-			System.out.println("연결 성공!");
-			
-		
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패");
-		} catch (SQLException e) {
-			System.out.println("에러 : " + e);
-		} finally {
-			try {
-				if (conn != null && !conn.isClosed()) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
-	}
-}
+SELECT * 
+FROM `member`;

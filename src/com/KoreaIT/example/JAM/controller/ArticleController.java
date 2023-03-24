@@ -1,15 +1,15 @@
 package com.KoreaIT.example.JAM.controller;
-
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import com.KoreaIT.example.JAM.Article;
+import com.KoreaIT.example.JAM.dto.Article;
 import com.KoreaIT.example.JAM.service.ArticleService;
 import com.KoreaIT.example.JAM.util.util;
 
 public class ArticleController extends Controller {
+
 	private ArticleService articleService;
 
 	public ArticleController(Connection conn, Scanner sc) {
@@ -86,7 +86,7 @@ public class ArticleController extends Controller {
 		System.out.printf("새 내용 : ");
 		String body = sc.nextLine();
 
-		articleService.doupDate(id, title, body);
+		articleService.doModify(id, title, body);
 
 		System.out.println(id + "번 글이 수정 되었습니다");
 
