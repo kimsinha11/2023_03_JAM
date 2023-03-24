@@ -8,6 +8,8 @@ public class Member extends Object {
 	public LocalDateTime regDate;
 	public LocalDateTime updateDate;
 	public String loginId;
+	
+
 	public String loginPw;
 	public String name;
 	
@@ -25,5 +27,10 @@ public class Member extends Object {
 		this.loginId = (String) memberMap.get("loginId");
 		this.loginPw = (String) memberMap.get("loginPw");
 		this.name = (String) memberMap.get("name");		
+	}
+	
+	@Override
+	public String toString() {
+		return "Member [id=" + id + ", loginId=" + loginId + ", name=" + name + "]";
 	}
 }
