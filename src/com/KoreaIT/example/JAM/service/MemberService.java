@@ -1,6 +1,6 @@
 package com.KoreaIT.example.JAM.service;
 
-import java.sql.Connection;
+import java.util.List;
 
 import com.KoreaIT.example.JAM.container.Container;
 import com.KoreaIT.example.JAM.dao.MemberDao;
@@ -25,5 +25,6 @@ public class MemberService {
 	public Member getMemberByLoginId(String loginId) {
 		return memberDao.getMemberByLoginId(loginId);
 	}
+
 
 }

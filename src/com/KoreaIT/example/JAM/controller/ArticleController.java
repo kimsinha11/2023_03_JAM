@@ -1,14 +1,13 @@
 package com.KoreaIT.example.JAM.controller;
+
 import java.util.List;
 import java.util.Map;
 
 import com.KoreaIT.example.JAM.container.Container;
-import com.KoreaIT.example.JAM.dao.MemberDao;
 import com.KoreaIT.example.JAM.dto.Article;
-import com.KoreaIT.example.JAM.dto.Member;
 import com.KoreaIT.example.JAM.service.ArticleService;
 import com.KoreaIT.example.JAM.service.MemberService;
-import com.KoreaIT.example.JAM.util.util;
+import com.KoreaIT.example.JAM.util.Util;
 
 public class ArticleController extends Controller {
 
@@ -24,7 +23,7 @@ public class ArticleController extends Controller {
 		if (Container.session.isLogined() == false) {
 			System.out.println("로그인 후 이용해주세요.");
 			return;
-		} 
+		}
 		System.out.println("==게시물 작성==");
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
@@ -51,21 +50,12 @@ public class ArticleController extends Controller {
 
 		Article article = new Article(articleMap);
 
-		String writer = null;
-
-	
-		Member member = Container.memberDao.;
-		for (int j = 0; j < members.size(); j++) {
-			Member member = members.get(j);
-			if (member.id == article.memberId) {
-				writer = member.name;
-
-			}
-		}
+		String writer = article.name;
+		
 		System.out.println("번호 : " + article.id);
 		System.out.println("작성자 : " + writer);
-		System.out.println("작성날짜 : " + util.getNowDateTimeStr(article.regDate));
-		System.out.println("수정날짜 : " + util.getNowDateTimeStr(article.updateDate));
+		System.out.println("작성날짜 : " + Util.getNowDateTimeStr(article.regDate));
+		System.out.println("수정날짜 : " + Util.getNowDateTimeStr(article.updateDate));
 		System.out.println("제목 : " + article.title);
 		System.out.println("내용 : " + article.body);
 
@@ -124,19 +114,18 @@ public class ArticleController extends Controller {
 
 		List<Article> articles = articleService.getArticlesCount();
 
+
 		if (articles.size() == 0) {
 			System.out.println("게시글이 없습니다");
 			return;
 		}
-		
+
 		System.out.println("번호   /  작성자 /  제목");
 
 		String writer = null;
 		for (Article article : articles) {
-			if( Container.session.loginedMember.id == article.id) {
-				writer = Container.session.loginedMember.name;
-			}
-			System.out.printf("%4d   /   %s  / %s \n", article.id, writer,  article.title);
+			writer = article.name;
+			System.out.printf("%4d   /   %s  / %s \n", article.id, writer, article.title);
 		}
 
 	}

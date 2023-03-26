@@ -6,13 +6,14 @@ import java.util.Map;
 
 public class Article extends Object {
 	public int memberId;
+	public String name;
 	public int id;
 	public LocalDateTime regDate;
 	public LocalDateTime updateDate;
 	public String title;
 	public String body;
 
-	public Article(int id, String title, String body) {
+	public Article(int id , String title, String body) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
@@ -28,6 +29,7 @@ public class Article extends Object {
 	}
 
 	public Article(Map<String, Object> articleMap) {
+		this.name = (String) articleMap.get("name");
 		this.id = (int) articleMap.get("id");
 		this.regDate = (LocalDateTime) articleMap.get("regDate");
 		this.updateDate = (LocalDateTime) articleMap.get("updateDate");
