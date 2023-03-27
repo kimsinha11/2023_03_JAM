@@ -6,6 +6,7 @@ public class Session {
 
 	public Member loginedMember;
 
+
 	public void logout() {
 		loginedMember = null;
 	}

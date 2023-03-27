@@ -42,14 +42,13 @@ public class ArticleController extends Controller {
 		System.out.println("==게시물 상세보기==");
 		articleService.increaseHit(id);
 
-		Map<String, Object> articleMap = articleService.getArticleById(id);
+		Article article = articleService.getArticleById(id);
 
-		if (articleMap.isEmpty()) {
+		if (article == null) {
 			System.out.println(id + "번 글은 존재하지 않습니다");
 			return;
 		}
 
-		Article article = new Article(articleMap);
 		System.out.println("번호 : " + article.id);
 		System.out.println("작성자 : " + article.extra__writer);
 		System.out.println("작성날짜 : " + Util.getNowDateTimeStr(article.regDate));
@@ -69,10 +68,14 @@ public class ArticleController extends Controller {
 
 		System.out.println("==게시물 삭제==");
 
-		int articlesCount = articleService.getArticlesCount(id);
+		Article article = articleService.getArticleById(id);
 
-		if (articlesCount == 0) {
+		if (article == null) {
 			System.out.println(id + "번 글은 존재하지 않습니다");
+			return;
+		}
+		if (article.memberId != Container.session.loginedMember.id) {
+			System.out.println("게시글에 대한 권한이 없습니다.");
 			return;
 		}
 
@@ -89,10 +92,15 @@ public class ArticleController extends Controller {
 		}
 		int id = Integer.parseInt(cmd.split(" ")[2]);
 
-		int articlesCount = articleService.getArticlesCount(id);
+		Article article = articleService.getArticleById(id);
 
-		if (articlesCount == 0) {
+		if (article == null) {
 			System.out.println(id + "번 글은 존재하지 않습니다");
+			return;
+		}
+
+		if (article.memberId != Container.session.loginedMember.id) {
+			System.out.println("게시글에 대한 권한이 없습니다.");
 			return;
 		}
 
@@ -111,7 +119,23 @@ public class ArticleController extends Controller {
 	public void showList(String cmd) {
 		System.out.println("==게시물 목록==");
 
-		List<Article> articles = articleService.getArticlesCount();
+		String[] cmdBits = cmd.split(" ");
+		int page = 1;
+		String searchKeyword = null;
+		
+		//몇페이지?
+		if (cmdBits.length >= 3 && cmdBits.length >= 4) {
+			page = Integer.parseInt(cmdBits[2]);
+		
+		}
+		//검색어
+		if (cmdBits.length >= 4) {
+			searchKeyword = cmdBits[3];
+		}
+		//한페이지에 7개씩
+		int itemsInAPage = 5;
+		
+		List<Article> articles = articleService.getForPrintArticles(page,itemsInAPage, searchKeyword);
 
 		if (articles.size() == 0) {
 			System.out.println("게시글이 없습니다");
@@ -122,7 +146,8 @@ public class ArticleController extends Controller {
 
 		for (Article article : articles) {
 
-			System.out.printf("%4d   /   %s  / %s / %d \n", article.id, article.extra__writer, article.title, article.hit);
+			System.out.printf("%4d   /   %s  / %s / %d \n", article.id, article.extra__writer, article.title,
+					article.hit);
 		}
 
 	}
