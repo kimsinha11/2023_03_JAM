@@ -147,7 +147,7 @@ public class ArticleDao {
 		sql.append("FROM article AS A");
 		sql.append("INNER JOIN `member` AS M");
 		sql.append("ON A.memberId = M.id");
-		if (searchKeyword.length() > 0) {
+		if (searchKeyword != null) {
 			sql.append("WHERE A.TITLE LIKE CONCAT('%',?,'%')", searchKeyword);
 		}
 		sql.append("ORDER BY id DESC");
