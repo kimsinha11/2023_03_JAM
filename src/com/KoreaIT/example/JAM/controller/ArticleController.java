@@ -12,7 +12,7 @@ import com.KoreaIT.example.JAM.util.Util;
 public class ArticleController extends Controller {
 
 	private ArticleService articleService;
-	private MemberService memberService;
+	public MemberService memberService;
 
 	public ArticleController() {
 		articleService = Container.articleService;
@@ -40,6 +40,7 @@ public class ArticleController extends Controller {
 		int id = Integer.parseInt(cmd.split(" ")[2]);
 
 		System.out.println("==게시물 상세보기==");
+		articleService.increaseHit(id);
 
 		Map<String, Object> articleMap = articleService.getArticleById(id);
 
@@ -49,15 +50,13 @@ public class ArticleController extends Controller {
 		}
 
 		Article article = new Article(articleMap);
-
-		String writer = article.name;
-		
 		System.out.println("번호 : " + article.id);
-		System.out.println("작성자 : " + writer);
+		System.out.println("작성자 : " + article.extra__writer);
 		System.out.println("작성날짜 : " + Util.getNowDateTimeStr(article.regDate));
 		System.out.println("수정날짜 : " + Util.getNowDateTimeStr(article.updateDate));
 		System.out.println("제목 : " + article.title);
 		System.out.println("내용 : " + article.body);
+		System.out.println("조회수 : " + article.hit);
 
 	}
 
@@ -114,18 +113,16 @@ public class ArticleController extends Controller {
 
 		List<Article> articles = articleService.getArticlesCount();
 
-
 		if (articles.size() == 0) {
 			System.out.println("게시글이 없습니다");
 			return;
 		}
 
-		System.out.println("번호   /  작성자 /  제목");
+		System.out.println("번호   /  작성자 /  제목 / 조회수");
 
-		String writer = null;
 		for (Article article : articles) {
-			writer = article.name;
-			System.out.printf("%4d   /   %s  / %s \n", article.id, writer, article.title);
+
+			System.out.printf("%4d   /   %s  / %s / %d \n", article.id, article.extra__writer, article.title, article.hit);
 		}
 
 	}

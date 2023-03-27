@@ -11,9 +11,8 @@ import com.KoreaIT.example.JAM.util.SecSql;
 
 public class ArticleDao {
 
-
 	public ArticleDao() {
-		
+
 	}
 
 	public int doWrite(int memberId, String title, String body) {
@@ -31,7 +30,9 @@ public class ArticleDao {
 
 	public Map<String, Object> getArticleById(int id) {
 		SecSql sql = new SecSql();
-		sql.append("SELECT article.id, member.name, article.regDate, article.updateDate, article.title, article.body");
+
+		sql.append(
+				"SELECT article.id, member.name as extra__writer, article.regDate, article.updateDate, article.title, article.body, article.hit");
 		sql.append("FROM article");
 		sql.append("INNER JOIN `member`");
 		sql.append("ON article.memberId = member.id");
@@ -72,7 +73,7 @@ public class ArticleDao {
 	public List<Article> getArticles() {
 		SecSql sql = new SecSql();
 
-		sql.append("SELECT article.id, member.name, article.title");
+		sql.append("SELECT article.id, member.name as extra__writer, article.title, article.hit");
 		sql.append("FROM article");
 		sql.append("INNER JOIN `member`");
 		sql.append("ON article.memberId = member.id");
@@ -87,6 +88,14 @@ public class ArticleDao {
 		}
 
 		return articles;
+	}
+
+	public void increaseHit(int id) {
+		SecSql sql = new SecSql();
+		sql.append("UPDATE article SET hit = hit+1");
+		sql.append("WHERE article.id = ?;", id);
+
+		DBUtil.update(Container.conn, sql);
 	}
 
 }

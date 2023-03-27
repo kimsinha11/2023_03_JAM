@@ -1,7 +1,5 @@
 package com.KoreaIT.example.JAM.service;
 
-import java.util.List;
-
 import com.KoreaIT.example.JAM.container.Container;
 import com.KoreaIT.example.JAM.dao.MemberDao;
 import com.KoreaIT.example.JAM.dto.Member;

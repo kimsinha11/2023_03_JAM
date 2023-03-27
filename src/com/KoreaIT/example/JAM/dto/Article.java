@@ -6,12 +6,14 @@ import java.util.Map;
 
 public class Article extends Object {
 	public int memberId;
-	public String name;
 	public int id;
 	public LocalDateTime regDate;
 	public LocalDateTime updateDate;
 	public String title;
 	public String body;
+	
+	public int hit;
+	public String extra__writer;
 
 	public Article(int id , String title, String body) {
 		this.id = id;
@@ -29,7 +31,9 @@ public class Article extends Object {
 	}
 
 	public Article(Map<String, Object> articleMap) {
-		this.name = (String) articleMap.get("name");
+		this.extra__writer = (String) articleMap.get("extra__writer");
+		this.hit = (int) articleMap.get("hit");
+//		this.memberId = (int) articleMap.get("memberId");
 		this.id = (int) articleMap.get("id");
 		this.regDate = (LocalDateTime) articleMap.get("regDate");
 		this.updateDate = (LocalDateTime) articleMap.get("updateDate");
@@ -40,8 +44,8 @@ public class Article extends Object {
 
 	@Override
 	public String toString() {
-		return "Article [id=" + id + ", regDate=" + regDate + ", updateDate=" + updateDate + ", title=" + title
-				+ ", body=" + body + "]";
+		return "Article [memberId=" + memberId + ", extra__writer=" + extra__writer + ", id=" + id + ", regDate=" + regDate
+				+ ", updateDate=" + updateDate + ", title=" + title + ", body=" + body + "]";
 	}
 
 }
